@@ -18,23 +18,22 @@ function try_connect($host, $port, $username, $password, $dbname) {
     return $conn->info();
 }
 function connect() {
-    if (defined("DB_PREFIX") && defined("DB_HOST") && defined("DB_USER") && defined("DB_PASS") && defined("DB_NAME")) {
+    if (defined("DB_PREFIX") && defined("DB_HOST") && defined("DB_PORT") && defined("DB_USER") && defined("DB_PASS") && defined("DB_NAME")) {
         global $Lemon;
-        $conn = new Medoo([
+        $Lemon->db = new Medoo([
             'database_type' => 'mysql', 
             'server' => DB_HOST,
-            'port' => 3306,
+            'port' => intval(DB_PORT),
             'username' => DB_USER, 
             'password' => DB_PASS, 
             'database_name' => DB_NAME,
             'prefix' => DB_PREFIX
         ]);
         // Check connection
-        if (mysqli_connect_error()) {
+        if (!$Lemon->db || ($Lemon->db->error() && !empty($Lemon->db->error()))) {
             $Lemon->db = false;
         }
         else {
-            $Lemon->db = $conn;
             return true;
         }
     }
@@ -47,11 +46,42 @@ function install() {
     $prefix = DB_PREFIX;
     
     // Users table
-    $Lemon->db->query("CREATE TABLE IF NOT EXISTS `{$prefix}lemonade_users` ( `ID` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR NOT NULL , `password` TEXT NOT NULL , `email` VARCHAR NOT NULL , `role` INT NOT NULL DEFAULT '0' , `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`ID`), UNIQUE (`username` ), UNIQUE (`email`)) ENGINE = InnoDB;");
+    $users = $Lemon->db->query(
+        "CREATE TABLE IF NOT EXISTS <{$prefix}lemonade_users> (
+            <ID> INT NOT NULL AUTO_INCREMENT, 
+            <username> VARCHAR(50) NOT NULL, 
+            <password> TEXT NOT NULL, 
+            <email> VARCHAR(50) NOT NULL, 
+            <role> INT NOT NULL DEFAULT 0, 
+            <timestamp> TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+            PRIMARY KEY (<ID>), 
+            UNIQUE (<username>), 
+            UNIQUE (<email>)
+        );"
+    );
 
     // Posts table
-    $Lemon->db->query("CREATE TABLE IF NOT EXISTS `lemonade`.`{$prefix}lemonade_posts` ( `ID` INT NOT NULL AUTO_INCREMENT , `type` VARCHAR NOT NULL, `status` VARCHAR NOT NULL , `fields` TEXT NOT NULL , `user` INT NOT NULL, `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`ID`)) ENGINE = InnoDB;");
+    $Lemon->db->query(
+        "CREATE TABLE IF NOT EXISTS <{$prefix}lemonade_posts> (
+            <ID> INT NOT NULL AUTO_INCREMENT, 
+            <type> TEXT NOT NULL, 
+            <status> VARCHAR(50) NOT NULL, 
+            <fields> TEXT NOT NULL, 
+            <user> INT NOT NULL, 
+            <timestamp> TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+            PRIMARY KEY (<ID>)
+        );"
+    );
 
     // Options table
-    $Lemon->db->query("CREATE TABLE IF NOT EXISTS `lemonade`.`{$prefix}lemonade_options` ( `ID` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR NOT NULL , `value` TEXT , `autoload` INT NOT NULL DEFAULT 1 , PRIMARY KEY (`ID`)) , UNIQUE (`name`) ENGINE = InnoDB;");
+    $Lemon->db->query(
+        "CREATE TABLE IF NOT EXISTS <{$prefix}lemonade_options> (
+            <ID> INT NOT NULL AUTO_INCREMENT, 
+            <name> VARCHAR(50) NOT NULL, 
+            <value> TEXT, 
+            <autoload> INT NOT NULL DEFAULT 1, 
+            PRIMARY KEY (<ID>),
+            UNIQUE (<name>)
+        );"
+    );
 }
