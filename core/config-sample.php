@@ -9,12 +9,12 @@ define('DEBUG_LOG', true);
 
 /* INSTALL BEGIN
 define('LEMONADE_I', 'true');
-define('SESSION_ID', "%1s");
+define('SESSION_ID', "%s");
 
-define('DB_HOST', '%2s');
-define('DB_PORT', '%3s');
-define('DB_USER', '%4s');
-define('DB_PASS', '%5s');
-define('DB_NAME', '%6s');
-define('DB_PREFIX', '%7s');
+define('DB_HOST', '%s');
+define('DB_PORT', '%s');
+define('DB_USER', '%s');
+define('DB_PASS', '%s');
+define('DB_NAME', '%s');
+define('DB_PREFIX', '%s');
 INSTALL END */

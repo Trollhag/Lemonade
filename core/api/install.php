@@ -14,7 +14,7 @@ if (file_exists(ABSPATH . "/core/config.php")) {
 }
 if (!file_exists(ABSPATH . '/core/config-sample.php')) {
     http_response_code(500);
-    die('Missing required config sample file, contact your technical go to person and they\'ll fix it.');
+    die('Missing required config sample file');
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
@@ -80,32 +80,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     define('DB_HOST', $data['db_host']);
     define('DB_PORT', intval($data['db_port']));
     define('DB_USER', $data['db_user']);
-    define('DB_PASS', $data['db_pass']);
+    define('DB_PASS', $data['db_password']);
     define('DB_NAME', $data['db_name']);
     define('DB_PREFIX', $data['db_prefix']);
-    $config = sprintf(file_get_contents(ABSPATH . "/core/config-sample.php"), [
-        SESSION_ID,
-        DB_HOST,
-        DB_PORT,
-        DB_USER,
-        DB_PASS,
-        DB_NAME,
-        DB_PREFIX
-    ]);
-    $config = preg_replace('/\/\* Install begin|Install end \*\//i', '', $config);
-    file_put_contents(ABSPATH . "/core/config.php", $config);
     
-    if (!file_exists(ABSPATH . "/core/config.php")) {
-        http_response_code(500);
-        die("Failed to create config file.");
-    }
     if (true === DB\connect()) {
         DB\install();
         // Adding SuperAdmin
         $result = Users\User::register($data['username'], $data['password'], $data['email'], -1);
-        if (!is_int($result) || $result < 0) {
-            http_response_code(500);
-            die($result);
+        if (!is_int($result)) {
+            die(json_encode($result));
         }
     }
     else {
@@ -114,7 +98,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     Options\Options::set("site", [
         "title" => $data["title"],
-        "baseurl" => $data["baseurl"]
+        "base_url" => $data["base_url"]
     ]);
+
+    $config = file_get_contents(ABSPATH . "/core/config-sample.php");
+    $config = sprintf(
+        $config,
+        SESSION_ID,
+        DB_HOST,
+        DB_PORT,
+        DB_USER,
+        DB_PASS,
+        DB_NAME,
+        DB_PREFIX
+    );
+    $config = preg_replace('/\/\* Install begin|Install end \*\//i', '', $config);
+    file_put_contents(ABSPATH . "/core/config.php", $config);
+    if (!file_exists(ABSPATH . "/core/config.php")) {
+        http_response_code(500);
+        die("Failed to create config file.");
+    }
+
     die(true);
 }
