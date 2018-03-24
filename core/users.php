@@ -20,17 +20,17 @@ class User {
         $this->memberSince = $user['timestamp'];
     }
 
-    public static function validateUsername($username) {
-        return $username === static::sanitizeUsername($username);
+    public static function validate($username) {
+        return $username === static::sanitize($username);
     }
 
-    public static function sanitizeUsername($username) {
+    public static function sanitize($username) {
         return preg_replace('/[^a-zA-Z-_]/', '', $username);
     }
 
     public static function checkUser($username, $hash) {
         global $Lemon;
-        if (!static::validateUsername($username)) return false;
+        if (!static::validate($username)) return false;
         $user_hash = $Lemon->db->get('lemonade_users', 
             'password',
             ['username' => $username]
@@ -46,7 +46,7 @@ class User {
         if (is_int($user)) {
             $where = ['ID' => $user];
         }
-        else if (static::validateUsername($user)) {
+        else if (static::validate($user)) {
             $where = ['username' => $user];
         }
         else return false;
@@ -95,9 +95,9 @@ class User {
                 $role = 2;
             }
         }
-        $Lemon->insert('lemonade_users', [
+        $Lemon->db->insert('lemonade_users', [
             'username'  => $username,
-            'password'  => password_hash($password),
+            'password'  => password_hash($password, PASSWORD_BCRYPT),
             'email'     => $email,
             'role'      => $role
         ]);
@@ -115,7 +115,7 @@ class User {
         if (isset($Lemon->currentUser)) return $Lemon->currentUser;
         if (isset($_SESSION['username']) && isset($_SESSION['hash'])) {
             $isUser = false;
-            if (static::validateUsername($_SESSION['username'])) {
+            if (static::validate($_SESSION['username'])) {
                 $isUser = static::checkUser($_SESSION['username'], $_SESSION['hash']);
             }
             if ($isUser) {
