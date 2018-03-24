@@ -1,0 +1,14 @@
+@import 'variables';
+@import 'mixins';
+@import './components/forms';
+@import './components/typography';
+
+.admin {
+    &-area {
+        background-color: $lemonade-bg;
+    }
+    &-card {
+        background-color: $lemonade-card;
+        border-radius: $lemonade-card-radius;
+    }
+}

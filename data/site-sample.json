@@ -1,0 +1,20 @@
+{
+    "title": {
+        "type": "string",
+        "edittype": "text",
+        "label": "Site title",
+        "value": ""
+    },
+    "url": {
+        "type": "string",
+        "edittype": "text",
+        "label": "Site URL",
+        "value": ""
+    },
+    "directory": {
+        "type": "string",
+        "edittype": "text",
+        "label": "Site directory",
+        "value": ""
+    }
+}
