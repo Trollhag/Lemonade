@@ -11,13 +11,19 @@ User roles:
 */
 
 class User {
-    public $role; 
     function __construct($user) {
         $this->ID = $user['ID'];
         $this->username = $user['username'];
         $this->email = $user['email'];
-        $this->role = $user['role'];
+        $this->role = static::parseRole($user['role']);
         $this->memberSince = $user['timestamp'];
+    }
+
+    protected static function parseRole($role) {
+        $r = intval($role);
+        // Type jugle comparrison, in case some string or non-string/int would be parsed incorrectly
+        if ($r != $role || (!is_int($role) && !is_string($role))) return 0;
+        return $r;
     }
 
     public static function validate($username) {
