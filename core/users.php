@@ -55,6 +55,29 @@ class User {
         if ($Lemon->db->hasError() || !$user_hash || empty($user_hash) || !is_string($user_hash)) return false;
         return $hash === hash('sha512', $user_hash . $_SERVER['HTTP_USER_AGENT']);
     }
+
+    public static function login($username, $password) {
+        global $Lemon;
+        if (!static::validate($username)) return -1;
+        $user_hash = $Lemon->db->get('lemonade_users', 
+            'password',
+            [
+                "OR" => [
+                    'username' => $username,
+                    'email' => $username
+                ]
+            ]
+        );
+        if ($Lemon->db->hasError()) return false;
+        if (!$user_hash || empty($user_hash)) return -2;
+        if (password_verify($password, $user_hash)) {
+            Lemonade\__session_start();
+            $_SESSION['username'] = $username;
+            $_SESSION['hash'] = hash('sha512', $user_hash . $_SERVER['HTTP_USER_AGENT']);
+            return true;
+        }
+        return -3;
+    }
     
     public static function get($user) {
         global $Lemon;
