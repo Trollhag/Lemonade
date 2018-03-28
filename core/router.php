@@ -28,8 +28,9 @@ class Router {
         ];
     }
     public static function getRoutes() {
+        global $Lemon;
         $routes = [];
-        foreach ($this->routes as $route=>$data) {
+        foreach ($Lemon->router->routes as $route=>$data) {
             $routes[] = array_merge([
                 'path' => $route
             ], $data);
