@@ -63,7 +63,9 @@ const Lemonade = {
         }, () => { init() })
       }
     }
-    else init();
+    else {
+      Vue.component('Login', Login)
+      init();
   }
 }
 
