@@ -7,7 +7,7 @@ if (!defined("LEMONADE_V")) {
 
 class Options {
     private static $tablename = "lemonade_options";
-    protected $options = [];
+    public $options = [];
 
     function __construct() {
         global $Lemon;
