@@ -72,5 +72,13 @@ class Options {
             return false;
         }
     }
+    public static function autoload() {
+        global $Lemon;
+        foreach ($Lemon->options->options as $name=>$option) {
+            if (!array_key_exists("ID", $option) && $option["autoload"]) {
+                static::load($name);
+            }
+        }
+    }
 }
 new Options();
