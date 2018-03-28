@@ -56,7 +56,7 @@ class User {
         return $hash === hash('sha512', $user_hash . $_SERVER['HTTP_USER_AGENT']);
     }
     
-    public static function getUser($user) {
+    public static function get($user) {
         global $Lemon;
         if (is_int($user)) {
             $where = ['ID' => $user];
@@ -132,7 +132,7 @@ class User {
                 $isUser = static::checkToken($_SESSION['username'], $_SESSION['hash']);
             }
             if ($isUser) {
-                return static::getUser($_SESSION['username']);
+                return static::get($_SESSION['username']);
             }
             else {
                 unset($_SESSION['username']);
