@@ -19,6 +19,17 @@ class User {
         $this->memberSince = $user['timestamp'];
     }
 
+    public static function isAdmin($user = false) {
+        global $Lemon;
+        if (!$user) $user = $Lemon->currentUser;
+        if (!is_a($user, __CLASS__)) {
+            $user = static::get($user);
+        }
+        if (is_a($user, __CLASS__)) {
+            return $user->role === -1 || $user->role === 2;
+        }
+    }
+
     protected static function parseRole($role) {
         $r = intval($role);
         // Type jugle comparrison, in case some string or non-string/int would be parsed incorrectly
