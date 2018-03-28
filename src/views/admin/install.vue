@@ -74,6 +74,7 @@
 export default {
     name: 'Install',
     mounted () {
+        window.EventBus.bodyClass = 'install-screen lemonade-page'
     },
     data () {
         return {
@@ -154,46 +155,9 @@ h1 {
     padding: 30px 0;
     min-height: 100vh;
 }
-.admin-container {
-    width: 600px;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-    form {
-        padding: 30px;
-        @include row;
-    }
-}
-.admin-form-group {
-    @include one-whole;
-}
-.admin-input {
-    background-color: rgba(0,0,0,.05);
-}
-.button-primary {
-    @include button-primary;
-    &-outline {
-        @include button-style(#f5f5f5, #333);
-    }
-}
-.button-secondary {
-    @include button-secondary;
+.admin-container form {
+    padding: 30px;
+    @include row;
 }
 
-.one-third {
-    @include one-third;
-}
-.one-half {
-    @include one-half;
-}
-.two-thirds {
-    @include two-thirds;
-}
-.pull-right {
-    @include pull-right;
-}
-.center-block {
-    @include center-block;
-}
 </style>
