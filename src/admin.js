@@ -9,6 +9,16 @@ import Install from '@/views/admin/install'
 
 const Lemonade = {
   install(Vue, options) {
+    window.EventBus = new Vue()
+
+    EventBus.$on('body-class', cssClass => {
+      let c;
+      if (typeof cssClass === "Array") {
+        c = cssClass.join(' ')
+      }
+      else c = cssClass;
+      document.getElementsByTagName('body')[0].className = c;
+    })
     const opts = options || {} 
     const init = (App) => {  
       var _routes = []
