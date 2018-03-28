@@ -16,13 +16,14 @@ class Options {
         static::register("site", true);
     }
 
-    public static function register($name, $autoload = false) {
+    public static function register($name, $autoload = false, $front = true) {
         global $Lemon;
         if (array_key_exists($name, $Lemon->options->options)) {
             return false;
         }
         $Lemon->options->options[$name] = [
-            'autoload' => $autoload
+            "autoload" => $autoload,
+            "front" => $front
         ];
     }
     public static function get($name) {
