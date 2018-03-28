@@ -38,7 +38,7 @@ function enqueueAsset($handle, $type = null, $data = null, $deps = null) {
 
 function isAdmin() {
     global $Lemon;
-    return $Lemon->currentUser->role === -1 || $Lemon->currentUser->role === 2;
+    return $Lemon->currentUser && ($Lemon->currentUser->role === -1 || $Lemon->currentUser->role === 2);
 }
 
 function slugify($title) {
