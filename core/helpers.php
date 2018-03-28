@@ -50,4 +50,19 @@ function slugify($title) {
 
 function getUser($user) {
     return Users\User::getUser($user);
+function sanitize_post_input($name, $checks = [], $filters = [], $regex_filter = false) {
+    $value = $_POST[$name];
+    $valid = true;
+    foreach ($checks as $c) {
+        if (false == call_user_func($c, $value)) $valid = false;
+    }
+    if (!$valid) return null;
+    foreach ($filters as $f) {
+        $value = call_user_func($f, $value);
+    }
+    if ($regex_filter !== false) {
+        $value = preg_replace($regex_filter, '', $value);
+    }
+    if (empty($value)) return null;
+    return $value;
 }
