@@ -14,6 +14,9 @@ class Router {
         $Lemon->router = $this;
     }
 
+    public static function register($route, $component, $data = []) {
+        global $Lemon;
+        $Lemon->router->routes[$route] = [
             'component' => $component,
             'meta' => $data
         ];
