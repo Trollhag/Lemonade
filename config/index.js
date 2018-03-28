@@ -12,11 +12,11 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/data': {
-        target: 'http://vueson.dev',
+        target: 'http://lemonade.tdev',
         changeOrigin: true
       },
       '/api': {
-        target: 'http://vueson.dev',
+        target: 'http://lemonade.tdev',
         changeOrigin: true
       }
     },
