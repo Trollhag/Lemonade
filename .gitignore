@@ -14,3 +14,4 @@ yarn-error.log*
 *.sln
 
 *.log
+core/config.php
