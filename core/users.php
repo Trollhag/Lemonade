@@ -11,12 +11,21 @@ User roles:
 */
 
 class User {
+    private static $_cache = [];
+    private static $_idMap = [];
     function __construct($user) {
         $this->ID = $user['ID'];
         $this->username = $user['username'];
         $this->email = $user['email'];
         $this->role = static::parseRole($user['role']);
         $this->memberSince = $user['timestamp'];
+    }
+
+    private static function cache($user) {
+        if (!is_a($user, __CLASS__)) return;
+        static::$_cache[$user->ID] = $user;
+        static::$_cache[$user->email] = $user;
+        static::$_cache[$user->username] = $user;
     }
 
     public static function isAdmin($user = false) {
@@ -81,19 +90,28 @@ class User {
     
     public static function get($user) {
         global $Lemon;
+        // TODO: Rewrite validation
+        // - Check if user is cached
         if (is_int($user)) {
             $where = ['ID' => $user];
         }
         else if (static::validate($user)) {
-            $where = ['username' => $user];
+            $where = [
+                "OR" => [
+                    'username' => $user,
+                    'email' => $user
+                ]
+            ];
         }
         else return false;
         $_user = $Lemon->db->get('lemonade_users', 
             ['ID', 'username', 'email', 'role', 'timestamp'],
             $where
         );
-        return new static($_user);
         if ($Lemon->db->hasError() || !$_user || empty($_user)) return false;
+        $_user = new static($_user);
+        static::cache($_user);
+        return $_user;
     }
     
     public static function register($username, $password, $email, $role = 0) {
