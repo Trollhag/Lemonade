@@ -19,7 +19,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../lemonade/styles/main'; 
 body {
   margin: 0;
   padding: 0;

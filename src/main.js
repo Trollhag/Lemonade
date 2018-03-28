@@ -8,6 +8,7 @@ import App from './App'
 import Start from '@/views/start'
 
 import Title from '@/components/core/title.js';
+import '../lemonade/styles/main.scss';
 
 
 //Vue.mixin(Mixins)
