@@ -21,14 +21,11 @@ class Router {
             'meta' => $data
         ];
     }
-    public function registerAdminRoute($route, $component, $data = []) {
+    public static function redirect($route, $redirect) {
         global $Lemon;
-        if (defined("LEMONADE_I") && $Lemon->isAdmin) {
-            $this->routes[$route] = [
-                'component' => $component,
-                'meta' => $data
-            ];
-        }
+        $Lemon->router->routes[$route] = [
+            "redirect" => $redirect
+        ];
     }
     public static function getRoutes() {
         $routes = [];
