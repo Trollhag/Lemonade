@@ -3,19 +3,22 @@ namespace Lemonade;
 use Lemonade\Users;
 
 function __session_start() {
-    $session_name = SESSION_ID;   // Set a custom session name 
-    // $secure = SECURE;
-    // Forces sessions to only use cookies.
-    if (ini_set('session.use_only_cookies', 1) === FALSE) {
-        
-    }
-    // Gets current cookies params.
-    $cookieParams = session_get_cookie_params();
-    session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], /*$secure*/ false, true);
-    // Sets the session name to the one set above.
-    session_name($session_name);
-    session_start();            // Start the PHP session 
-    session_regenerate_id();    // regenerated the session, delete the old one. 
+    if (session_id() == '') {
+
+        $session_name = SESSION_ID;   // Set a custom session name 
+        // $secure = SECURE;
+        // Forces sessions to only use cookies.
+        if (ini_set('session.use_only_cookies', 1) === FALSE) {
+            
+        }
+        // Gets current cookies params.
+        $cookieParams = session_get_cookie_params();
+        session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], /*$secure*/ false, true);
+        // Sets the session name to the one set above.
+        session_name($session_name);
+        session_start();            // Start the PHP session 
+        session_regenerate_id();    // regenerated the session, delete the old one.
+    } 
 }
 
 function loadAssets() {
