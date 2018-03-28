@@ -49,12 +49,12 @@ class Options {
         if (!$option) {
             $option = $Lemon->options->options[$name];
             $option["name"] = $name;
-            $option["value"] = $value;
+            $option["value[JSON]"] = $value;
             $Lemon->db->insert(static::$tablename, $option);
         }
         else {
             if ($option["value"] !== $value) {
-                $Lemon->db->update(static::$tablename, ["value" => $value], ["name" => $name]);
+                $Lemon->db->update(static::$tablename, ["value[JSON]" => $value], ["name" => $name]);
             }
         }
         $error = $Lemon->db->error();
@@ -63,7 +63,7 @@ class Options {
     }
     public static function load($name) {
         global $Lemon;
-        $option = $Lemon->db->get(static::$tablename, ["ID", "value", "autoload"], ["name" => $name]);
+        $option = $Lemon->db->get(static::$tablename, ["ID", "value[JSON]", "autoload"], ["name" => $name]);
         if ($option) {
             $Lemon->options->options[$name] = $option;
             return $option;
