@@ -122,10 +122,8 @@ class User {
     public static function currentUser() {
         global $Lemon;
         
-        if (session_status() == PHP_SESSION_NONE) {
-            Lemonade\__session_start();
-        }
-        if (isset($Lemon->currentUser)) return $Lemon->currentUser;
+        if ($Lemon->currentUser) return $Lemon->currentUser;
+        Lemonade\__session_start();
         if (isset($_SESSION['username']) && isset($_SESSION['hash'])) {
             $isUser = false;
             if (static::validate($_SESSION['username'])) {
