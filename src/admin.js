@@ -19,6 +19,16 @@ const Lemonade = {
       else c = cssClass;
       document.getElementsByTagName('body')[0].className = c;
     })
+
+    // Initialize components
+    // Get admin views
+    Vue.component('AdminApp', AdminApp)
+    Vue.component('Install', Install)
+    // Get admin components
+    Vue.component('admin-menu', AdminMenu)
+    Vue.component('route-menu', RouteMenu)
+    Vue.component('edittype-text', EditTypeText)
+
     const opts = options || {} 
     const init = (App) => {  
       var _routes = []
@@ -51,12 +61,6 @@ const Lemonade = {
             Vue.component('UserApp', Vue.component('App'))
             // Init AdminApp instad of regular App
             Vue.component('App', AdminApp)
-            // Get admin views
-            Vue.component('Install', Install)
-            // Get admin components
-            Vue.component('admin-menu', AdminMenu)
-            Vue.component('route-menu', RouteMenu)
-            Vue.component('edittype-text', EditTypeText)
             init()
             return;
           }
