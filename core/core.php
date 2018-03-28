@@ -15,11 +15,10 @@ if (defined('DEBUG') && DEBUG === true) {
 
 function vueson_debug_log($message) {
     if (defined('DEBUG_LOG') && DEBUG_LOG === true && defined('DEBUGLOGFILE')) {
-        $datetime = date('U Y-m-d HH:mm:ss');
+        $datetime = date('U Y-m-d H:i:s');
         error_log("[{$datetime}] {$message}\n", 3, DEBUGLOGFILE);
     }
 }
-
 require_once ABSPATH . "/vendor/autoload.php";
 require_once ABSPATH . "/core/db/db.php";
 require_once ABSPATH . "/core/helpers.php";
