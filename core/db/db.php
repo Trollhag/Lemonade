@@ -34,9 +34,17 @@ function connect() {
             $Lemon->db = false;
         }
         else {
+            $Lemon->db->hasError = __NAMESPACE__ . "\\error";
             return true;
         }
     }
+    return false;
+}
+
+function error() {
+    global $Lemon;
+    $errors = $Lemon->db->error();
+    if ($errors && $errors[0] != 0000) return true;
     return false;
 }
 

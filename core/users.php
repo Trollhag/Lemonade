@@ -35,9 +35,7 @@ class User {
             'password',
             ['username' => $username]
         );
-        $errors = $Lemon->db->error();
-        if ($errors && !empty($errors)) return false;
-        if (!$user_hash || empty($user_hash)) return false;
+        if ($Lemon->db->hasError() || !$user_hash || empty($user_hash) || !is_string($user_hash)) return false;
         return $hash === hash('sha512', $user_hash . $_SERVER['HTTP_USER_AGENT']);
     }
     
@@ -54,10 +52,8 @@ class User {
             ['ID', 'username', 'email', 'role', 'timestamp'],
             $where
         );
-        $errors = $Lemon->db->error();
-        if ($errors && !empty($errors)) return false;
-        if (!$_user || empty($_user)) return false;
         return new static($_user);
+        if ($Lemon->db->hasError() || !$_user || empty($_user)) return false;
     }
     
     public static function register($username, $password, $email, $role = 0) {
@@ -75,6 +71,7 @@ class User {
 
         $exists = $Lemon->db->select('lemonade_users', ['username', 'email', 'role'], $where);
         
+        if ($Lemon->db->hasError()) return -1;
         if ($exists && !empty($exists)) {
             $username_unused = true;
             $email_unused = true;
@@ -101,8 +98,7 @@ class User {
             'email'     => $email,
             'role'      => $role
         ]);
-        $errors = $Lemon->db->error();
-        if ($errors && !empty($errors)) return -1; // Returns -1 on failure
+        if ($Lemon->db->hasError()) return -1;
         return $Lemon->db->id(); // Returns new user ID
     }
     
