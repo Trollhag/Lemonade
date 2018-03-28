@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'Admin-menu',
+  name: 'AdminMenu',
   mounted () {
     // Perform admin checks
   },
