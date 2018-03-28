@@ -14,8 +14,6 @@ class Router {
         $Lemon->router = $this;
     }
 
-    public function register($route, $component, $data = []) {
-        $this->routes[$route] = [
             'component' => $component,
             'meta' => $data
         ];
@@ -29,7 +27,7 @@ class Router {
             ];
         }
     }
-    public function getRoutes() {
+    public static function getRoutes() {
         $routes = [];
         foreach ($this->routes as $route=>$data) {
             $routes[] = array_merge([
