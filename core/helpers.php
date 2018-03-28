@@ -48,8 +48,6 @@ function slugify($title) {
     return $title;
 }
 
-function getUser($user) {
-    return Users\User::getUser($user);
 function sanitize_post_input($name, $checks = [], $filters = [], $regex_filter = false) {
     $value = $_POST[$name];
     $valid = true;
