@@ -45,7 +45,7 @@ class User {
         return preg_replace('/[^a-zA-Z0-9-_]/', '', $username);
     }
 
-    public static function checkUser($username, $hash) {
+    public static function checkToken($username, $hash) {
         global $Lemon;
         if (!static::validate($username)) return false;
         $user_hash = $Lemon->db->get('lemonade_users', 
@@ -129,7 +129,7 @@ class User {
         if (isset($_SESSION['username']) && isset($_SESSION['hash'])) {
             $isUser = false;
             if (static::validate($_SESSION['username'])) {
-                $isUser = static::checkUser($_SESSION['username'], $_SESSION['hash']);
+                $isUser = static::checkToken($_SESSION['username'], $_SESSION['hash']);
             }
             if ($isUser) {
                 return static::getUser($_SESSION['username']);
