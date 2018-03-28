@@ -80,5 +80,21 @@ class Options {
             }
         }
     }
+    public static function _toFront() {
+        global $Lemon;
+        $return = [];
+        foreach ($Lemon->options->options as $name=>$option) {
+            if ($option["autoload"] && $option["front"]) {
+                $return[$name] = static::_clean($option);
+            }
+        }
+        return $return;
+    }
+    protected static function _clean($value) {
+        if (array_key_exists("value", $value) && is_array($value["value"])) {
+            $value["value"] = static::_clean($value["value"]);
+        }
+        return $value;
+    }
 }
 new Options();
