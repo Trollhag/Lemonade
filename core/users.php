@@ -42,7 +42,7 @@ class User {
     }
 
     public static function sanitize($username) {
-        return preg_replace('/[^a-zA-Z-_]/', '', $username);
+        return preg_replace('/[^a-zA-Z0-9-_]/', '', $username);
     }
 
     public static function checkUser($username, $hash) {
