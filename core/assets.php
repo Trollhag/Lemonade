@@ -1,7 +1,6 @@
 <?php
 
-namespace Lemonade\Assets;
-use Lemonade;
+namespace Lemonade;
 
 if (!defined("ABSPATH")) {
     die(-1);
@@ -27,20 +26,16 @@ class Assets {
     protected $registered = [];
     protected $enqueued = [];
     protected $loaded = [];
-    function __construct() {
-        global $Lemon;
-        $status = json_encode([
-            'status' =>$Lemon->status
-        ]);
-        $this->enqueue('lemon/js', 'inline_js', "var lemon = " . $status);
-
-        
+    function __construct() {        
         $manifest = new Manifest();
         if ($manifest->assets->manifest) {
             $this->enqueue('manifest/js', 'js', $manifest->assets->manifest->js);
         }
         $this->enqueue('vendor/js', 'js', $manifest->assets->vendor->js);
         $this->enqueue('app/js', 'js', $manifest->assets->app->js, ["lemon/js", "routes/js", "vendor/js"]);
+        if ($manifest->assets->app->css) {
+            $this->enqueue('app/css', 'css', $manifest->assets->app->css);
+        }
     }
     public function register($handle, $type, $asset, $deps = []) {
         $this->registered[$handle] = [

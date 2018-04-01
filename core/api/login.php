@@ -1,6 +1,5 @@
 <?php
-use Lemonade\API\API;
-use Lemonade\Users\User;
+namespace Lemonade;
 
 if (!defined('LEMONADE_V')) {
     die();

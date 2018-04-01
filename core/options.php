@@ -1,5 +1,5 @@
 <?php
-namespace Lemonade\Options;
+namespace Lemonade;
 
 if (!defined("LEMONADE_V")) {
     die();

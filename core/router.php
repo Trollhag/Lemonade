@@ -1,6 +1,5 @@
 <?php
-namespace Lemonade\Router;
-use Lemonade;
+namespace Lemonade;
 
 if (!defined("LEMONADE_V")) {
     die();

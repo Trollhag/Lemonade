@@ -1,5 +1,5 @@
 <?php
-namespace Lemonade\PostSetup;
+namespace Lemonade;
 
 class PostBase {
     public static $fields = [];

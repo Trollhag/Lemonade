@@ -1,5 +1,5 @@
 <?php
-namespace Lemonade\PostSetup;
+namespace Lemonade;
 
 class Page extends PostBase {
     function __construct() {

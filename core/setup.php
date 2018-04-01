@@ -1,7 +1,5 @@
 <?php
-namespace Lemonade\Setup;
-use Lemonade\Router\Router;
-use Lemonade\Options\Options;
+namespace Lemonade;
 
 Options::autoload();
 

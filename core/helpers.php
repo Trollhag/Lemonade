@@ -1,6 +1,5 @@
 <?php
 namespace Lemonade;
-use Lemonade\Users;
 
 function __session_start() {
     if (session_id() == '') {

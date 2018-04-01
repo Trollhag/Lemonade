@@ -1,5 +1,5 @@
 <?php
-namespace Lemonade\DB;
+namespace Lemonade;
 use Medoo\Medoo;
 
 function try_connect($host, $port, $username, $password, $dbname) {
@@ -17,7 +17,7 @@ function try_connect($host, $port, $username, $password, $dbname) {
     }
     return $conn->info();
 }
-function connect() {
+function dbConnect() {
     if (defined("DB_PREFIX") && defined("DB_HOST") && defined("DB_PORT") && defined("DB_USER") && defined("DB_PASS") && defined("DB_NAME")) {
         global $Lemon;
         $Lemon->db = new Medoo([

@@ -1,7 +1,5 @@
 <?php
-namespace Lemonade\Lemon;
-use Lemonade\Users\User;
-use Lemonade\DB;
+namespace Lemonade;
 
 class Lemon {
     public $db;
@@ -14,7 +12,7 @@ class Lemon {
     function __construct() {
         global $Lemon;
         $Lemon = $this;
-        DB\Connect();        
+        dbConnect();        
         if (!defined("LEMONADE_I")) {
             $this->currentUser = new User(['role' => -1]);
         }

@@ -1,6 +1,5 @@
 <?php 
-namespace Lemonade\Users;
-use Lemonade;
+namespace Lemonade;
 
 /*
 User roles:
@@ -80,7 +79,7 @@ class User {
         if ($Lemon->db->hasError()) return false;
         if (!$user_hash || empty($user_hash)) return -2;
         if (password_verify($password, $user_hash)) {
-            Lemonade\__session_start();
+            __session_start();
             $_SESSION['username'] = $username;
             $_SESSION['hash'] = hash('sha512', $user_hash . $_SERVER['HTTP_USER_AGENT']);
             return true;
@@ -164,7 +163,7 @@ class User {
         global $Lemon;
         
         if ($Lemon->currentUser) return $Lemon->currentUser;
-        Lemonade\__session_start();
+        __session_start();
         if (isset($_SESSION['username']) && isset($_SESSION['hash'])) {
             $isUser = false;
             if (static::validate($_SESSION['username'])) {

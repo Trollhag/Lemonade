@@ -1,6 +1,5 @@
 <?php
-namespace Lemonade\API;
-use Lemonade;
+namespace Lemonade;
 
 if (!defined("LEMONADE_V")) {
     die();
@@ -74,7 +73,7 @@ class API {
 }
 
 API::register('admin', function() {
-    return Lemonade\isAdmin();
+    return isAdmin();
 });
 
 if (!defined("LEMONADE_I")) {
