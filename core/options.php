@@ -10,10 +10,6 @@ class Options {
     public $options = [];
 
     function __construct() {
-        global $Lemon;
-        $Lemon->options = $this;
-
-        static::register("site", true);
     }
 
     public static function register($name, $autoload = false, $front = true) {
@@ -97,4 +93,3 @@ class Options {
         return $value;
     }
 }
-new Options();

@@ -101,5 +101,4 @@ class Assets {
         echo $output;
     }
 }
-$Lemon->assets = new Assets();
 

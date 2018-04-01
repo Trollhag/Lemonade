@@ -9,16 +9,6 @@ class Router {
     protected $routes = [];
 
     function __construct() {
-        global $Lemon;
-        $Lemon->router = $this;
-        if (!$Lemon->currentUser) { 
-            static::register("/lemonade/login", "login");
-            static::redirect("/lemonade/*", "/lemonade/login");
-        }
-        else {
-            static::register("/", "dashboard");
-            static::redirect("/lemonade/login", "/");
-        }
     }
 
     public static function register($route, $component, $data = []) {
@@ -45,4 +35,3 @@ class Router {
         return $routes;
     }
 }
-new Router();

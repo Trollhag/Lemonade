@@ -72,10 +72,6 @@ class API {
     }
 }
 
-API::register('admin', function() {
-    return isAdmin();
-});
-
 if (!defined("LEMONADE_I")) {
     require dirname(__FILE__) . "/install.php";
 }

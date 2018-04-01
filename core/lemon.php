@@ -21,6 +21,15 @@ class Lemon {
         }
         $this->status['installed'] = defined("LEMONADE_I");
         $this->status['currentUser'] = $this->currentUser;
+
+        $this->AdminMenu = new AdminMenu("lemonade-adminmenu");
+        $this->assets = new Assets();
+        $this->options = new Options();
+        $this->router = new Router();
     }
 }
 new Lemon();
+
+API::register('admin', function() {
+    return isAdmin();
+});
