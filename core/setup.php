@@ -8,7 +8,7 @@ if (!defined("LEMONADE_I")) {
     Router::register("/", "Install", [ "installing" => true ]);
 }
 
-if (!$Lemon->currentUser) { 
+if (!User::$currentUser) { 
     Router::register("/lemonade/login", "login");
     Router::redirect("/lemonade/*", "/lemonade/login");
 }

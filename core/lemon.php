@@ -22,7 +22,9 @@ class Lemon {
         $this->status['installed'] = defined("LEMONADE_I");
         $this->status['currentUser'] = $this->currentUser;
 
-        $this->AdminMenu = new AdminMenu("lemonade-adminmenu");
+        if (User::isAdmin()) {
+            $this->AdminMenu = new AdminMenu("lemonade-adminmenu");
+        }
         $this->assets = new Assets();
         $this->options = new Options();
         $this->router = new Router();

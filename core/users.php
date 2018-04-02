@@ -12,6 +12,7 @@ User roles:
 class User {
     private static $_cache = [];
     private static $_idMap = [];
+    public static $currentUser = false;
     function __construct($user) {
         $this->ID = $user['ID'];
         $this->username = $user['username'];
@@ -29,7 +30,7 @@ class User {
 
     public static function isAdmin($user = false) {
         global $Lemon;
-        if (!$user) $user = $Lemon->currentUser;
+        if (!$user) $user = static::currentUser();
         if (!is_a($user, __CLASS__)) {
             $user = static::get($user);
         }
@@ -170,7 +171,8 @@ class User {
                 $isUser = static::checkToken($_SESSION['username'], $_SESSION['hash']);
             }
             if ($isUser) {
-                return static::get($_SESSION['username']);
+                static::$currentUser = static::get($_SESSION['username']);
+                return static::$currentUser;
             }
             else {
                 unset($_SESSION['username']);
@@ -180,3 +182,6 @@ class User {
         return false;
     }
 }
+API::register('admin', function() {
+    return User::isAdmin();
+});
