@@ -8,7 +8,7 @@ define('DEBUG', true);
 define('DEBUG_LOG', true);
 
 /* INSTALL BEGIN
-define('LEMONADE_I', 'true');
+define('LEMONADE_I', true);
 define('SESSION_ID', "%s");
 
 define('DB_HOST', '%s');
