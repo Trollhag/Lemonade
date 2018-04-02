@@ -29,7 +29,6 @@ class User {
     }
 
     public static function isAdmin($user = false) {
-        global $Lemon;
         if (!$user) $user = static::currentUser();
         if (!is_a($user, __CLASS__)) {
             $user = static::get($user);
@@ -37,6 +36,7 @@ class User {
         if (is_a($user, __CLASS__)) {
             return $user->role === -1 || $user->role === 2;
         }
+        return false;
     }
 
     protected static function parseRole($role) {
@@ -55,7 +55,6 @@ class User {
     }
 
     public static function checkToken($username, $hash) {
-        global $Lemon;
         if (!static::validate($username)) return false;
         $user_hash = Lemon::$db->get('lemonade_users', 
             'password',
@@ -66,7 +65,6 @@ class User {
     }
 
     public static function login($username, $password) {
-        global $Lemon;
         if (!static::validate($username)) return -1;
         $user_hash = Lemon::$db->get('lemonade_users', 
             'password',
@@ -89,7 +87,6 @@ class User {
     }
     
     public static function get($user) {
-        global $Lemon;
         // TODO: Rewrite validation
         // - Check if user is cached
         if (is_int($user)) {
@@ -115,7 +112,6 @@ class User {
     }
     
     public static function register($username, $password, $email, $role = 0) {
-        global $Lemon;
         $where = [
             'OR' => [
                 'username'  => $username,
@@ -160,9 +156,7 @@ class User {
         return Lemon::$db->id(); // Returns new user ID
     }
     
-    public static function currentUser() {
-        global $Lemon;
-        
+    public static function currentUser() {        
         if (static::$currentUser) return static::$currentUser;
         __session_start();
         if (isset($_SESSION['username']) && isset($_SESSION['hash'])) {
