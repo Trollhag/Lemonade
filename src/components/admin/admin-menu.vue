@@ -5,6 +5,12 @@
         <router-link to="/">
           <img src="@/assets/lemonade.svg">
         </router-link>
+        <div v-for="(item, index) in menu.items" :key="index">
+          <router-link :id="item.name" :to="item.route">
+            <i v-if="item.icon" :class="item.icon"></i>
+            {{ item.text }}
+          </router-link>
+        </div>
       </div>
     </div>
     <route-menu></route-menu>
@@ -15,10 +21,17 @@
 export default {
   name: 'AdminMenu',
   mounted () {
-    // Perform admin checks
+    this.$http.get('/api/adminmenu/lemonade-adminmenu').then(response => {
+      this.menu.items = response.body;
+    }, response => {
+
+    })
   },
   data () {
     return {
+      menu: {
+        items: {}
+      }
     }
   }
 }
