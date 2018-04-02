@@ -10,6 +10,7 @@ import RouteMenu from '@/components/admin/route-menu'
 import Install from '@/views/admin/install'
 import Login from '@/views/login'
 import Dashboard from '@/views/admin/dashboard'
+import List from '@/views/admin/list'
 
 import Title from '@/components/core/title.js';
 import '../lemonade/styles/main.scss';
@@ -68,6 +69,7 @@ Vue.http.get('/api/admin/').then((response) => {
     Vue.component('admin-menu', AdminMenu)
     Vue.component('route-menu', RouteMenu)
     Vue.component('dashboard', Dashboard)
+    Vue.component('lemonade-list', List)
   }
   init()
 }, () => { init() })
