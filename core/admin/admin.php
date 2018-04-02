@@ -6,5 +6,5 @@ if (!defined("LEMONADE_V")) {
 }
 
 if (User::isAdmin()) {
-    require dirname(__FILE__) . "/admin-menu.php";
+    require_once dirname(__FILE__) . "/admin-menu.php";
 }
