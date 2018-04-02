@@ -54,7 +54,6 @@ const Lemonade = {
       else {
         Vue.http.get('/api/admin/').then((response) => {
           if (response.body === true) {
-            console.log('Admin check: ')
 
             Vue.mixin(Mixins)
             // Save App as UserApp, we'll need it later
@@ -70,6 +69,7 @@ const Lemonade = {
     else {
       Vue.component('Login', Login)
       init();
+    }
   }
 }
 
