@@ -29,5 +29,6 @@ class Lemon {
         $this->options = new Options();
         $this->router = new Router();
         User::Setup();
+        AdminMenu::Setup();
     }
 }

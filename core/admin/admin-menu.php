@@ -13,22 +13,28 @@ class AdminMenu {
     }
 
     public function register($name, $route, $text, $icon = false) {
-        $this->items[$name] = func_get_args();
+        $this->items[$name] = [
+            "name"  => $name,
+            "route" => $route,
+            "text"  => $text,
+            "icon"  => $icon,
+        ];
     }
 
     public static function getItems($name) {
-        if (array_key_exists($name, static::$items))
-            return static::$items[$name]->items;
+        if (array_key_exists($name, static::$menus))
+            return static::$menus[$name]->items;
 
         return false;
     }
+
+    public static function Setup() {
+        API::register("adminmenu/([\w\-\_]+)", function($name) {
+            if (User::isAdmin())
+                return array_values(AdminMenu::getItems($name));
+            
+            http_response_code(403);
+            return false;
+        });
+    }
 }
-
-API::register("adminmenu/([\w\-\_]+)", function($name) {
-    if (isAdmin())
-        return AdminMenu::getItems($name);
-
-    
-    http_response_code(403);
-    return false;
-});
