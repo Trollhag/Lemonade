@@ -28,5 +28,6 @@ class Lemon {
         $this->assets = new Assets();
         $this->options = new Options();
         $this->router = new Router();
+        User::Setup();
     }
 }

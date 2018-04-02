@@ -175,7 +175,24 @@ class User {
         }
         return false;
     }
+
+    public static function Setup() {
+        global $Lemon;
+        if (User::isAdmin()) {
+            $Lemon->AdminMenu->register('users', '/lemonade/users', 'Users');
+            Router::register('/lemonade/users', 'lemonade-list', [
+                "type" => "users",
+                "posts" => Lemon::$db->select('lemonade_users', ['ID', 'Username'])
+            ]);
+            Router::register('/lemonade/users/:ID', 'lemonade-user');
+        }
+    }
 }
 API::register('admin', function() {
     return User::isAdmin();
+});
+API::register('users/(\d+)', function($id) {
+    if (User::isAdmin() && $id) {
+        return User::get($id);
+    }
 });
