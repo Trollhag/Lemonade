@@ -2,7 +2,7 @@
 namespace Lemonade;
 
 class Lemon {
-    public $db;
+    public static $db;
     public $router;
     public $options;
     public $status = [];
@@ -12,7 +12,7 @@ class Lemon {
     function __construct() {
         global $Lemon;
         $Lemon = $this;
-        dbConnect();        
+             
         if (!defined("LEMONADE_I")) {
             $this->currentUser = new User(['role' => -1]);
         }
@@ -30,8 +30,3 @@ class Lemon {
         $this->router = new Router();
     }
 }
-new Lemon();
-
-API::register('admin', function() {
-    return isAdmin();
-});

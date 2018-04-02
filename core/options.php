@@ -46,20 +46,20 @@ class Options {
             $option = $Lemon->options->options[$name];
             $option["name"] = $name;
             $option["value[JSON]"] = $value;
-            $Lemon->db->insert(static::$tablename, $option);
+            Lemon::$db->insert(static::$tablename, $option);
         }
         else {
             if ($option["value"] !== $value) {
-                $Lemon->db->update(static::$tablename, ["value[JSON]" => $value], ["name" => $name]);
+                Lemon::$db->update(static::$tablename, ["value[JSON]" => $value], ["name" => $name]);
             }
         }
-        $error = $Lemon->db->error();
+        $error = Lemon::$db->error();
         if ($error && !empty($error)) return $error;
         return $value;
     }
     public static function load($name) {
         global $Lemon;
-        $option = $Lemon->db->get(static::$tablename, ["ID", "value[JSON]", "autoload"], ["name" => $name]);
+        $option = Lemon::$db->get(static::$tablename, ["ID", "value[JSON]", "autoload"], ["name" => $name]);
         if ($option) {
             $Lemon->options->options[$name] = $option;
             return $option;

@@ -1,6 +1,8 @@
 <?php
 namespace Lemonade;
 
+new Lemon();
+
 Options::register("site", true);
 Options::autoload();
 

@@ -12,15 +12,14 @@ function try_connect($host, $port, $username, $password, $dbname) {
         'database_name' => $dbname
     ]);
     // Check connection
-    if (!$conn || ($conn->error() && !empty($conn->error()))) {
+    if (!$conn || !db_error()) {
         return "Connection failed: " . implode(' ', $conn->error());
     }
     return $conn->info();
 }
 function dbConnect() {
     if (defined("DB_PREFIX") && defined("DB_HOST") && defined("DB_PORT") && defined("DB_USER") && defined("DB_PASS") && defined("DB_NAME")) {
-        global $Lemon;
-        $Lemon->db = new Medoo([
+        Lemon::$db = new Medoo([
             'database_type' => 'mysql', 
             'server' => DB_HOST,
             'port' => intval(DB_PORT),
@@ -30,31 +29,32 @@ function dbConnect() {
             'prefix' => DB_PREFIX
         ]);
         // Check connection
-        if (!$Lemon->db || ($Lemon->db->error() && !empty($Lemon->db->error()))) {
-            $Lemon->db = false;
+        if (!Lemon::$db || (Lemon::$db->error() && !empty(Lemon::$db->error()))) {
+            Lemon::$db = false;
         }
         else {
-            $Lemon->db->hasError = __NAMESPACE__ . "\\error";
+            Lemon::$db->hasError = __NAMESPACE__ . "\\db_error";
             return true;
         }
     }
     return false;
 }
+dbConnect();
 
-function error() {
+function db_error() {
     global $Lemon;
-    $errors = $Lemon->db->error();
+    $errors = Lemon::$db->error();
     if ($errors && $errors[0] != 0000) return true;
     return false;
 }
 
 function install() {
     global $Lemon;
-    if ($Lemon->db === false) return false;
+    if (Lemon::$db === false) return false;
     $prefix = DB_PREFIX;
     
     // Users table
-    $users = $Lemon->db->query(
+    $users = Lemon::$db->query(
         "CREATE TABLE IF NOT EXISTS <{$prefix}lemonade_users> (
             <ID> INT NOT NULL AUTO_INCREMENT, 
             <username> VARCHAR(50) NOT NULL, 
@@ -69,7 +69,7 @@ function install() {
     );
 
     // Posts table
-    $Lemon->db->query(
+    Lemon::$db->query(
         "CREATE TABLE IF NOT EXISTS <{$prefix}lemonade_posts> (
             <ID> INT NOT NULL AUTO_INCREMENT, 
             <type> TEXT NOT NULL, 
@@ -82,7 +82,7 @@ function install() {
     );
 
     // Options table
-    $Lemon->db->query(
+    Lemon::$db->query(
         "CREATE TABLE IF NOT EXISTS <{$prefix}lemonade_options> (
             <ID> INT NOT NULL AUTO_INCREMENT, 
             <name> VARCHAR(50) NOT NULL, 

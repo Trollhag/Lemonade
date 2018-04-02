@@ -19,6 +19,7 @@ function vueson_debug_log($message) {
         error_log("[{$datetime}] {$message}\n", 3, DEBUGLOGFILE);
     }
 }
+require_once ABSPATH . "/core/lemon.php";
 require_once ABSPATH . "/vendor/autoload.php";
 require_once ABSPATH . "/core/db/db.php";
 require_once ABSPATH . "/core/helpers.php";
@@ -29,5 +30,4 @@ require_once ABSPATH . "/core/admin/admin.php";
 require_once ABSPATH . "/core/post-setup/post-setup.php";
 require_once ABSPATH . "/core/router.php";
 require_once ABSPATH . "/core/assets.php";
-require_once ABSPATH . "/core/lemon.php";
 require_once ABSPATH . "/core/setup.php";

@@ -57,18 +57,18 @@ class User {
     public static function checkToken($username, $hash) {
         global $Lemon;
         if (!static::validate($username)) return false;
-        $user_hash = $Lemon->db->get('lemonade_users', 
+        $user_hash = Lemon::$db->get('lemonade_users', 
             'password',
             ['username' => $username]
         );
-        if ($Lemon->db->hasError() || !$user_hash || empty($user_hash) || !is_string($user_hash)) return false;
+        if (Lemon::$db->hasError() || !$user_hash || empty($user_hash) || !is_string($user_hash)) return false;
         return $hash === hash('sha512', $user_hash . $_SERVER['HTTP_USER_AGENT']);
     }
 
     public static function login($username, $password) {
         global $Lemon;
         if (!static::validate($username)) return -1;
-        $user_hash = $Lemon->db->get('lemonade_users', 
+        $user_hash = Lemon::$db->get('lemonade_users', 
             'password',
             [
                 "OR" => [
@@ -77,7 +77,7 @@ class User {
                 ]
             ]
         );
-        if ($Lemon->db->hasError()) return false;
+        if (Lemon::$db->hasError()) return false;
         if (!$user_hash || empty($user_hash)) return -2;
         if (password_verify($password, $user_hash)) {
             __session_start();
@@ -104,11 +104,11 @@ class User {
             ];
         }
         else return false;
-        $_user = $Lemon->db->get('lemonade_users', 
+        $_user = Lemon::$db->get('lemonade_users', 
             ['ID', 'username', 'email', 'role', 'timestamp'],
             $where
         );
-        if ($Lemon->db->hasError() || !$_user || empty($_user)) return false;
+        if (Lemon::$db->hasError() || !$_user || empty($_user)) return false;
         $_user = new static($_user);
         static::cache($_user);
         return $_user;
@@ -127,9 +127,9 @@ class User {
             $where['OR']['role'] = -1;
         }
 
-        $exists = $Lemon->db->select('lemonade_users', ['username', 'email', 'role'], $where);
+        $exists = Lemon::$db->select('lemonade_users', ['username', 'email', 'role'], $where);
         
-        if ($Lemon->db->hasError()) return -1;
+        if (Lemon::$db->hasError()) return -1;
         if ($exists && !empty($exists)) {
             $username_unused = true;
             $email_unused = true;
@@ -150,20 +150,20 @@ class User {
                 $role = 2;
             }
         }
-        $Lemon->db->insert('lemonade_users', [
+        Lemon::$db->insert('lemonade_users', [
             'username'  => $username,
             'password'  => password_hash($password, PASSWORD_BCRYPT),
             'email'     => $email,
             'role'      => $role
         ]);
-        if ($Lemon->db->hasError()) return -1;
-        return $Lemon->db->id(); // Returns new user ID
+        if (Lemon::$db->hasError()) return -1;
+        return Lemon::$db->id(); // Returns new user ID
     }
     
     public static function currentUser() {
         global $Lemon;
         
-        if ($Lemon->currentUser) return $Lemon->currentUser;
+        if (static::$currentUser) return static::$currentUser;
         __session_start();
         if (isset($_SESSION['username']) && isset($_SESSION['hash'])) {
             $isUser = false;
